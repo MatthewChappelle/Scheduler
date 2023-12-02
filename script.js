@@ -1,7 +1,6 @@
 var DateDisplayEl = $('#currentDay');
-var timeBlock = $('.time-block');
 
-
+//creates a row for each hour
 $(function () {
 
   for (var i = 9; i <= 17; i++) {
@@ -9,6 +8,8 @@ $(function () {
     //set up id for each hour block
     var timeBlockId = "hour-" + i;
 
+    // Convert to am/pm 
+    var blockHour = i < 12 ? i + "AM" : i === 12 ? i + "PM" : i - 12 + "PM";
 
     // Create each time block div with styling 
     var timeBlock = $("<div>").attr("id", timeBlockId).addClass("row time-block");
@@ -23,8 +24,6 @@ $(function () {
     var saveBtn = $("<button>").addClass("btn saveBtn col-2 col-md-1").attr("aria-label", "save");
     var saveIcon = $("<i>").addClass("fas fa-save").attr("aria-hidden", "true");
 
-    // Convert to am/pm 
-    var blockHour = i < 12 ? i + "AM" : i - 12 + "PM";
 
     //append in layers to the main container
     saveBtn.append(saveIcon);
@@ -37,7 +36,7 @@ $(function () {
 $(function () {
 
   //find current hour
-  var currentHour = dayjs().format("H");
+  var currentHour = dayjs().format("h");
 
   //repeat for each time-block
   $(".time-block").each(function () {
@@ -69,6 +68,16 @@ $(function () {
 });
 
 
+//adds listener to clear button that will reset textboxes and only clears the items in local storage that were made from this scheduler
+$(function () {
+  $(".clear").on("click", function () {
+    $(".time-block").each(function () {
+      var timeBlockId = $(this).attr("id");
+      localStorage.removeItem(timeBlockId);
+      $(this).find(".description").val("");
+    })
+  });
+})
 
 
 // Added a Listner for the save button that uses time-block id as a key to save user input in local storage. 
