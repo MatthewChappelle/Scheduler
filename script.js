@@ -36,7 +36,7 @@ $(function () {
 $(function () {
 
   //find current hour
-  var currentHour = dayjs().format('H');
+  var currentHour = dayjs().format("H");
 
   //repeat for each time-block
   $(".time-block").each(function () {
